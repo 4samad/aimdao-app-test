@@ -3,27 +3,15 @@ pragma solidity ^0.8.13;
 
 // import "./interfaces/IAIOracle.sol";
 // import "./AIOracleCallbackReceiver.sol";
-import {IAIOracle} from "../lib/OAO/contracts/interfaces/IAIOracle.sol";
-import {AIOracleCallbackReceiver} from "../lib/OAO/contracts/AIOracleCallbackReceiver.sol";
+import { IAIOracle } from "../lib/OAO/contracts/interfaces/IAIOracle.sol";
+import { AIOracleCallbackReceiver } from "../lib/OAO/contracts/AIOracleCallbackReceiver.sol";
 
 /// @notice User interfacing contract that interacts with OAO
 /// @dev Prompt contract inherits AIOracleCallbackReceiver, so that OPML nodes can callback with the result.
 contract Prompt is AIOracleCallbackReceiver {
-    
-    event promptsUpdated(
-        uint256 requestId,
-        uint256 modelId,
-        string input,
-        string output,
-        bytes callbackData
-    );
+    event promptsUpdated(uint256 requestId, uint256 modelId, string input, string output, bytes callbackData);
 
-    event promptRequest(
-        uint256 requestId,
-        address sender, 
-        uint256 modelId,
-        string prompt
-    );
+    event promptRequest(uint256 requestId, address sender, uint256 modelId, string prompt);
 
     struct AIOracleRequest {
         address sender;
@@ -67,10 +55,14 @@ contract Prompt is AIOracleCallbackReceiver {
     }
 
     /// @notice OAO executes this method after it finishes with computation
-    /// @param requestId id of the request 
+    /// @param requestId id of the request
     /// @param output result of the OAO computation
     /// @param callbackData optional data that is executed in the callback
-    function aiOracleCallback(uint256 requestId, bytes calldata output, bytes calldata callbackData) external override onlyAIOracleCallback() {
+    function aiOracleCallback(
+        uint256 requestId,
+        bytes calldata output,
+        bytes calldata callbackData
+    ) external override onlyAIOracleCallback {
         // since we do not set the callbackData in this example, the callbackData should be empty
         AIOracleRequest storage request = requests[requestId];
         require(request.sender != address(0), "request does not exist");
@@ -86,10 +78,14 @@ contract Prompt is AIOracleCallbackReceiver {
 
     /// @notice main point of interaction with OAO
     /// @dev aiOracle.requestCallback sends request to OAO
-    function calculateAIResult(uint256 modelId, string calldata prompt) payable external returns (uint256) {
+    function calculateAIResult(uint256 modelId, string calldata prompt) external payable returns (uint256) {
         bytes memory input = bytes(prompt);
-        uint256 requestId = aiOracle.requestCallback{value: msg.value}(
-            modelId, input, address(this), callbackGasLimit[modelId], ""
+        uint256 requestId = aiOracle.requestCallback{ value: msg.value }(
+            modelId,
+            input,
+            address(this),
+            callbackGasLimit[modelId],
+            ""
         );
         AIOracleRequest storage request = requests[requestId];
         request.input = input;
@@ -98,5 +94,4 @@ contract Prompt is AIOracleCallbackReceiver {
         emit promptRequest(requestId, msg.sender, modelId, prompt);
         return requestId;
     }
-
 }

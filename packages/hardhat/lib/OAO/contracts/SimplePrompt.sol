@@ -7,19 +7,9 @@ import "./AIOracleCallbackReceiver.sol";
 
 // this contract is for ai.ora.io website
 contract SimplePrompt is AIOracleCallbackReceiver {
+    event promptsUpdated(uint256 requestId, string output, bytes callbackData);
 
-    event promptsUpdated(
-        uint256 requestId,
-        string output,
-        bytes callbackData
-    );
-
-    event promptRequest(
-        uint256 requestId,
-        address sender, 
-        uint256 modelId,
-        string prompt
-    );
+    event promptRequest(uint256 requestId, address sender, uint256 modelId, string prompt);
 
     struct AIOracleRequest {
         address sender;
@@ -54,7 +44,11 @@ contract SimplePrompt is AIOracleCallbackReceiver {
     }
 
     // the callback function, only the AI Oracle can call this function
-    function aiOracleCallback(uint256 requestId, bytes calldata output, bytes calldata callbackData) external override onlyAIOracleCallback() {
+    function aiOracleCallback(
+        uint256 requestId,
+        bytes calldata output,
+        bytes calldata callbackData
+    ) external override onlyAIOracleCallback {
         emit promptsUpdated(requestId, string(output), callbackData);
     }
 
@@ -62,11 +56,15 @@ contract SimplePrompt is AIOracleCallbackReceiver {
         return aiOracle.estimateFee(modelId, callbackGasLimit[modelId]);
     }
 
-    function calculateAIResult(uint256 modelId, string calldata prompt) payable external {
+    function calculateAIResult(uint256 modelId, string calldata prompt) external payable {
         bytes memory input = bytes(prompt);
         // we do not need to set the callbackData in this example
-        uint256 requestId = aiOracle.requestCallback{value: msg.value}(
-            modelId, input, address(this), callbackGasLimit[modelId], ""
+        uint256 requestId = aiOracle.requestCallback{ value: msg.value }(
+            modelId,
+            input,
+            address(this),
+            callbackGasLimit[modelId],
+            ""
         );
         emit promptRequest(requestId, msg.sender, modelId, prompt);
     }
