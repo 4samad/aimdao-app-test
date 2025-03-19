@@ -1,0 +1,545 @@
+{
+  "address": "0xA6FD1890568F58745Fc9Ca7F539bdA55d2Ec6392",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract IAIOracle",
+          "name": "_aiOracle",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IAIOracle",
+          "name": "expected",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IAIOracle",
+          "name": "found",
+          "type": "address"
+        }
+      ],
+      "name": "UnauthorizedCallbackSource",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "modelId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "prompt",
+          "type": "string"
+        }
+      ],
+      "name": "promptRequest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "modelId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "input",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "output",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "callbackData",
+          "type": "bytes"
+        }
+      ],
+      "name": "promptsUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "aiOracle",
+      "outputs": [
+        {
+          "internalType": "contract IAIOracle",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "requestId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "output",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "callbackData",
+          "type": "bytes"
+        }
+      ],
+      "name": "aiOracleCallback",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "modelId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "prompt",
+          "type": "string"
+        }
+      ],
+      "name": "calculateAIResult",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "callbackGasLimit",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "modelId",
+          "type": "uint256"
+        }
+      ],
+      "name": "estimateFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "modelId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "prompt",
+          "type": "string"
+        }
+      ],
+      "name": "getAIResult",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "requestId",
+          "type": "uint256"
+        }
+      ],
+      "name": "isFinalized",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "prompts",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "requests",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "modelId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "input",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "output",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "modelId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint64",
+          "name": "gasLimit",
+          "type": "uint64"
+        }
+      ],
+      "name": "setCallbackGasLimit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x964ba259e874e14e0474a38ed762b159799e9df67820bbafb8451f345af866bd",
+  "receipt": {
+    "to": null,
+    "from": "0xF68B75C16B140EF5258132999E2B9692ECbcf819",
+    "contractAddress": "0xA6FD1890568F58745Fc9Ca7F539bdA55d2Ec6392",
+    "transactionIndex": 92,
+    "gasUsed": "1074232",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xe004bfef4e2afa8662440f011b3e6a7f20f575f8c14e1df35bf2beb155c7a877",
+    "transactionHash": "0x964ba259e874e14e0474a38ed762b159799e9df67820bbafb8451f345af866bd",
+    "logs": [],
+    "blockNumber": 7936123,
+    "cumulativeGasUsed": "11039566",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x0A0f4321214BB6C7811dD8a71cF587bdaF03f0A0"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "5e38d99ce1b71a020a95620cab566fe9",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract IAIOracle\",\"name\":\"_aiOracle\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"contract IAIOracle\",\"name\":\"expected\",\"type\":\"address\"},{\"internalType\":\"contract IAIOracle\",\"name\":\"found\",\"type\":\"address\"}],\"name\":\"UnauthorizedCallbackSource\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"modelId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"prompt\",\"type\":\"string\"}],\"name\":\"promptRequest\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"modelId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"input\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"output\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"callbackData\",\"type\":\"bytes\"}],\"name\":\"promptsUpdated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"aiOracle\",\"outputs\":[{\"internalType\":\"contract IAIOracle\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"output\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"callbackData\",\"type\":\"bytes\"}],\"name\":\"aiOracleCallback\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"modelId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"prompt\",\"type\":\"string\"}],\"name\":\"calculateAIResult\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"callbackGasLimit\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"modelId\",\"type\":\"uint256\"}],\"name\":\"estimateFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"modelId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"prompt\",\"type\":\"string\"}],\"name\":\"getAIResult\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"requestId\",\"type\":\"uint256\"}],\"name\":\"isFinalized\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"prompts\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"requests\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"modelId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"input\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"output\",\"type\":\"bytes\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"modelId\",\"type\":\"uint256\"},{\"internalType\":\"uint64\",\"name\":\"gasLimit\",\"type\":\"uint64\"}],\"name\":\"setCallbackGasLimit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Prompt contract inherits AIOracleCallbackReceiver, so that OPML nodes can callback with the result.\",\"kind\":\"dev\",\"methods\":{\"aiOracleCallback(uint256,bytes,bytes)\":{\"params\":{\"callbackData\":\"optional data that is executed in the callback\",\"output\":\"result of the OAO computation\",\"requestId\":\"id of the request \"}},\"calculateAIResult(uint256,string)\":{\"details\":\"aiOracle.requestCallback sends request to OAO\"},\"setCallbackGasLimit(uint256,uint64)\":{\"details\":\"only owner can set the gas limit\"}},\"stateVariables\":{\"callbackGasLimit\":{\"details\":\"modelId => callback gasLimit\"},\"prompts\":{\"details\":\"uint256: modelID => (string: prompt => string: output)\"},\"requests\":{\"details\":\"requestId => AIOracleRequest\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"aiOracleCallback(uint256,bytes,bytes)\":{\"notice\":\"OAO executes this method after it finishes with computation\"},\"calculateAIResult(uint256,string)\":{\"notice\":\"main point of interaction with OAO\"},\"constructor\":{\"notice\":\"Initialize the contract, binding it to a specified AIOracle.\"},\"estimateFee(uint256)\":{\"notice\":\"estimating fee that is spent by OAO\"},\"getAIResult(uint256,string)\":{\"notice\":\"returns the output for the specified model and prompt\"},\"setCallbackGasLimit(uint256,uint64)\":{\"notice\":\"sets the callback gas limit for a model\"}},\"notice\":\"User interfacing contract that interacts with OAO\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Prompt.sol\":\"Prompt\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/Prompt.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.13;\\n\\n// import \\\"./interfaces/IAIOracle.sol\\\";\\n// import \\\"./AIOracleCallbackReceiver.sol\\\";\\nimport {IAIOracle} from \\\"../lib/OAO/contracts/interfaces/IAIOracle.sol\\\";\\nimport {AIOracleCallbackReceiver} from \\\"../lib/OAO/contracts/AIOracleCallbackReceiver.sol\\\";\\n\\n/// @notice User interfacing contract that interacts with OAO\\n/// @dev Prompt contract inherits AIOracleCallbackReceiver, so that OPML nodes can callback with the result.\\ncontract Prompt is AIOracleCallbackReceiver {\\n    \\n    event promptsUpdated(\\n        uint256 requestId,\\n        uint256 modelId,\\n        string input,\\n        string output,\\n        bytes callbackData\\n    );\\n\\n    event promptRequest(\\n        uint256 requestId,\\n        address sender, \\n        uint256 modelId,\\n        string prompt\\n    );\\n\\n    struct AIOracleRequest {\\n        address sender;\\n        uint256 modelId;\\n        bytes input;\\n        bytes output;\\n    }\\n\\n    address public owner;\\n\\n    modifier onlyOwner() {\\n        require(msg.sender == owner, \\\"Only owner\\\");\\n        _;\\n    }\\n\\n    /// @dev requestId => AIOracleRequest\\n    mapping(uint256 => AIOracleRequest) public requests;\\n\\n    /// @dev modelId => callback gasLimit\\n    mapping(uint256 => uint64) public callbackGasLimit;\\n\\n    /// @notice Initialize the contract, binding it to a specified AIOracle.\\n    constructor(IAIOracle _aiOracle) AIOracleCallbackReceiver(_aiOracle) {\\n        owner = msg.sender;\\n        callbackGasLimit[50] = 500_000; // Stable Diffusion\\n        callbackGasLimit[11] = 5_000_000; // Llama\\n    }\\n\\n    /// @notice sets the callback gas limit for a model\\n    /// @dev only owner can set the gas limit\\n    function setCallbackGasLimit(uint256 modelId, uint64 gasLimit) external onlyOwner {\\n        callbackGasLimit[modelId] = gasLimit;\\n    }\\n\\n    /// @dev uint256: modelID => (string: prompt => string: output)\\n    mapping(uint256 => mapping(string => string)) public prompts;\\n\\n    /// @notice returns the output for the specified model and prompt\\n    function getAIResult(uint256 modelId, string calldata prompt) external view returns (string memory) {\\n        return prompts[modelId][prompt];\\n    }\\n\\n    /// @notice OAO executes this method after it finishes with computation\\n    /// @param requestId id of the request \\n    /// @param output result of the OAO computation\\n    /// @param callbackData optional data that is executed in the callback\\n    function aiOracleCallback(uint256 requestId, bytes calldata output, bytes calldata callbackData) external override onlyAIOracleCallback() {\\n        // since we do not set the callbackData in this example, the callbackData should be empty\\n        AIOracleRequest storage request = requests[requestId];\\n        require(request.sender != address(0), \\\"request does not exist\\\");\\n        request.output = output;\\n        prompts[request.modelId][string(request.input)] = string(output);\\n        emit promptsUpdated(requestId, request.modelId, string(request.input), string(output), callbackData);\\n    }\\n\\n    /// @notice estimating fee that is spent by OAO\\n    function estimateFee(uint256 modelId) public view returns (uint256) {\\n        return aiOracle.estimateFee(modelId, callbackGasLimit[modelId]);\\n    }\\n\\n    /// @notice main point of interaction with OAO\\n    /// @dev aiOracle.requestCallback sends request to OAO\\n    function calculateAIResult(uint256 modelId, string calldata prompt) payable external returns (uint256) {\\n        bytes memory input = bytes(prompt);\\n        uint256 requestId = aiOracle.requestCallback{value: msg.value}(\\n            modelId, input, address(this), callbackGasLimit[modelId], \\\"\\\"\\n        );\\n        AIOracleRequest storage request = requests[requestId];\\n        request.input = input;\\n        request.sender = msg.sender;\\n        request.modelId = modelId;\\n        emit promptRequest(requestId, msg.sender, modelId, prompt);\\n        return requestId;\\n    }\\n\\n}\",\"keccak256\":\"0x490faa6f6d7393bc71dbf15018d662e5b699679279f9112dfed437d452f31bda\",\"license\":\"MIT\"},\"lib/OAO/contracts/AIOracleCallbackReceiver.sol\":{\"content\":\"// SampleContract.sol\\n// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\nimport \\\"./interfaces/IAIOracle.sol\\\";\\n\\n/// @notice A base contract for writing a AIOracle app\\nabstract contract AIOracleCallbackReceiver {\\n\\n    // Address of the AIOracle contract\\n    IAIOracle public immutable aiOracle;\\n\\n    // Invalid callback source error\\n    error UnauthorizedCallbackSource(IAIOracle expected, IAIOracle found);\\n\\n    /// @notice Initialize the contract, binding it to a specified AIOracle contract\\n    constructor(IAIOracle _aiOracle) {\\n        aiOracle = _aiOracle;\\n    }\\n\\n    /// @notice Verify this is a callback by the aiOracle contract \\n    modifier onlyAIOracleCallback() {\\n        IAIOracle foundRelayAddress = IAIOracle(msg.sender);\\n        if (foundRelayAddress != aiOracle) {\\n            revert UnauthorizedCallbackSource(aiOracle, foundRelayAddress);\\n        }\\n        _;\\n    }\\n\\n    /**\\n     * @dev the callback function in OAO, should add the modifier onlyAIOracleCallback!\\n     * @param requestId Id for the request in OAO (unique per request)\\n     * @param output AI model's output\\n     * @param callbackData user-defined data (The same as when the user call aiOracle.requestCallback)\\n     */\\n    function aiOracleCallback(uint256 requestId, bytes calldata output, bytes calldata callbackData) external virtual;\\n\\n    function isFinalized(uint256 requestId) external view returns (bool) {\\n        return aiOracle.isFinalized(requestId);\\n    }\\n}\",\"keccak256\":\"0x9962254c36b4fc27651d0bb4a5f841444d12130f1d3847d11f2921480da03201\",\"license\":\"MIT\"},\"lib/OAO/contracts/interfaces/IAIOracle.sol\":{\"content\":\"// SampleContract.sol\\n// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IAIOracle {\\n    /// @notice Event emitted upon receiving a callback request through requestCallback.\\n    event AICallbackRequest(\\n        address indexed account,\\n        uint256 indexed requestId,\\n        uint256 modelId,\\n        bytes input,\\n        address callbackContract,\\n        uint64 gasLimit,\\n        bytes callbackData\\n    );\\n\\n    /// @notice Event emitted when the result is uploaded or update.\\n    event AICallbackResult(\\n        address indexed account,\\n        uint256 indexed requestId,\\n        address invoker,\\n        bytes output\\n    );\\n\\n    /**\\n     * initiate a request in OAO\\n     * @param modelId ID for AI model\\n     * @param input input for AI model\\n     * @param callbackContract address of callback contract\\n     * @param gasLimit gas limitation of calling the callback function\\n     * @param callbackData optional, user-defined data, will send back to the callback function\\n     * @return requestID\\n     */\\n    function requestCallback(\\n        uint256 modelId,\\n        bytes memory input,\\n        address callbackContract,\\n        uint64 gasLimit,\\n        bytes memory callbackData\\n    ) external payable returns (uint256);\\n\\n    function estimateFee(uint256 modelId, uint256 gasLimit) external view returns (uint256);\\n\\n    function isFinalized(uint256 requestId) external view returns (bool);\\n}\",\"keccak256\":\"0x4109982a910eda89ca73319827a5c1ee888bd88ca1aef9160c21601fe6a1fa81\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60a060405234801561001057600080fd5b5060405161126638038061126683398101604081905261002f916100c0565b6001600160a01b0316608052600080546001600160a01b0319163317815560026020527f6d00efa09a7071d855bc5fb7d93921fbf02f2c4e3992802f2a9b08050cf48ea880546001600160401b03199081166207a12017909155600b9091527fab9952baf6478d8cfb7253ce86a6c53a7b7549582c76210b1581ae682b7e556f8054909116624c4b401790556100f0565b6000602082840312156100d257600080fd5b81516001600160a01b03811681146100e957600080fd5b9392505050565b60805161113861012e60003960008181610161015281816102c40152818161041a0152818161070f0152818161074c01526108e601526111386000f3fe60806040526004361061009c5760003560e01c8063813d1e1511610064578063813d1e15146101cb57806381d12c58146101ed5780638cbc52d91461021d5780638da5cb5b1461023d578063b03478141461025d578063fac5d7e11461027d57600080fd5b8063127e8e4d146100a157806320f38718146100d45780632c6296b71461012257806331b221cd1461014f57806333727c4d1461019b575b600080fd5b3480156100ad57600080fd5b506100c16100bc3660046109f5565b610290565b6040519081526020015b60405180910390f35b3480156100e057600080fd5b5061010a6100ef3660046109f5565b6002602052600090815260409020546001600160401b031681565b6040516001600160401b0390911681526020016100cb565b34801561012e57600080fd5b5061014261013d366004610a56565b61033c565b6040516100cb9190610ae7565b34801561015b57600080fd5b506101837f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016100cb565b3480156101a757600080fd5b506101bb6101b63660046109f5565b610401565b60405190151581526020016100cb565b3480156101d757600080fd5b506101eb6101e6366004610b01565b61048d565b005b3480156101f957600080fd5b5061020d6102083660046109f5565b610508565b6040516100cb9493929190610b3d565b34801561022957600080fd5b50610142610238366004610b97565b61064e565b34801561024957600080fd5b50600054610183906001600160a01b031681565b34801561026957600080fd5b506101eb610278366004610c51565b610704565b6100c161028b366004610a56565b610888565b600081815260026020526040808220549051620e1d8d60e41b8152600481018490526001600160401b0390911660248201527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03169062e1d8d090604401602060405180830381865afa158015610312573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103369190610cca565b92915050565b6060600360008581526020019081526020016000208383604051610361929190610ce3565b9081526020016040518091039020805461037a90610cf3565b80601f01602080910402602001604051908101604052809291908181526020018280546103a690610cf3565b80156103f35780601f106103c8576101008083540402835291602001916103f3565b820191906000526020600020905b8154815290600101906020018083116103d657829003601f168201915b505050505090509392505050565b6040516333727c4d60e01b8152600481018290526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906333727c4d90602401602060405180830381865afa158015610469573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103369190610d2d565b6000546001600160a01b031633146104d95760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b60448201526064015b60405180910390fd5b600091825260026020526040909120805467ffffffffffffffff19166001600160401b03909216919091179055565b60016020819052600091825260409091208054918101546002820180546001600160a01b039094169391929161053d90610cf3565b80601f016020809104026020016040519081016040528092919081815260200182805461056990610cf3565b80156105b65780601f1061058b576101008083540402835291602001916105b6565b820191906000526020600020905b81548152906001019060200180831161059957829003601f168201915b5050505050908060030180546105cb90610cf3565b80601f01602080910402602001604051908101604052809291908181526020018280546105f790610cf3565b80156106445780601f1061061957610100808354040283529160200191610644565b820191906000526020600020905b81548152906001019060200180831161062757829003601f168201915b5050505050905084565b600360209081526000928352604090922081518083018401805192815290840192909301919091209152805461068390610cf3565b80601f01602080910402602001604051908101604052809291908181526020018280546106af90610cf3565b80156106fc5780601f106106d1576101008083540402835291602001916106fc565b820191906000526020600020905b8154815290600101906020018083116106df57829003601f168201915b505050505081565b336001600160a01b037f00000000000000000000000000000000000000000000000000000000000000001681146107815760405163432e033760e11b81526001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081166004830152821660248201526044016104d0565b600086815260016020526040902080546001600160a01b03166107df5760405162461bcd60e51b81526020600482015260166024820152751c995c5d595cdd08191bd95cc81b9bdd08195e1a5cdd60521b60448201526064016104d0565b600381016107ee868883610d9e565b5085856003600084600101548152602001908152602001600020836002016040516108199190610e5e565b90815260200160405180910390209182610834929190610d9e565b507faf2b2381ddcb18a2b18a7826186fd216acdd9c852a8c7a9a49e7eab127f96ccf87826001015483600201898989896040516108779796959493929190610efd565b60405180910390a150505050505050565b60008083838080601f016020809104026020016040519081016040528093929190818152602001838380828437600092018290525089815260026020526040808220549051632dca9c0360e11b815295965090946001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000169450635b9538069350349250610930918b91889130916001600160401b0390911690600401610fc3565b60206040518083038185885af115801561094e573d6000803e3d6000fd5b50505050506040513d601f19601f820116820180604052508101906109739190610cca565b6000818152600160205260409020909150600281016109928482611015565b5080546001600160a01b031916339081178255600182018890556040517fa0faead83d70148ae18b694377f9bef079251342ab90e14af0f9ef68b891269f916109e3918591908b908b908b906110d4565b60405180910390a15095945050505050565b600060208284031215610a0757600080fd5b5035919050565b60008083601f840112610a2057600080fd5b5081356001600160401b03811115610a3757600080fd5b602083019150836020828501011115610a4f57600080fd5b9250929050565b600080600060408486031215610a6b57600080fd5b8335925060208401356001600160401b03811115610a8857600080fd5b610a9486828701610a0e565b9497909650939450505050565b6000815180845260005b81811015610ac757602081850181015186830182015201610aab565b506000602082860101526020601f19601f83011685010191505092915050565b602081526000610afa6020830184610aa1565b9392505050565b60008060408385031215610b1457600080fd5b8235915060208301356001600160401b0381168114610b3257600080fd5b809150509250929050565b60018060a01b0385168152836020820152608060408201526000610b646080830185610aa1565b8281036060840152610b768185610aa1565b979650505050505050565b634e487b7160e01b600052604160045260246000fd5b60008060408385031215610baa57600080fd5b8235915060208301356001600160401b0380821115610bc857600080fd5b818501915085601f830112610bdc57600080fd5b813581811115610bee57610bee610b81565b604051601f8201601f19908116603f01168101908382118183101715610c1657610c16610b81565b81604052828152886020848701011115610c2f57600080fd5b8260208601602083013760006020848301015280955050505050509250929050565b600080600080600060608688031215610c6957600080fd5b8535945060208601356001600160401b0380821115610c8757600080fd5b610c9389838a01610a0e565b90965094506040880135915080821115610cac57600080fd5b50610cb988828901610a0e565b969995985093965092949392505050565b600060208284031215610cdc57600080fd5b5051919050565b8183823760009101908152919050565b600181811c90821680610d0757607f821691505b602082108103610d2757634e487b7160e01b600052602260045260246000fd5b50919050565b600060208284031215610d3f57600080fd5b81518015158114610afa57600080fd5b601f821115610d9957600081815260208120601f850160051c81016020861015610d765750805b601f850160051c820191505b81811015610d9557828155600101610d82565b5050505b505050565b6001600160401b03831115610db557610db5610b81565b610dc983610dc38354610cf3565b83610d4f565b6000601f841160018114610dfd5760008515610de55750838201355b600019600387901b1c1916600186901b178355610e57565b600083815260209020601f19861690835b82811015610e2e5786850135825560209485019460019092019101610e0e565b5086821015610e4b5760001960f88860031b161c19848701351681555b505060018560011b0183555b5050505050565b6000808354610e6c81610cf3565b60018281168015610e845760018114610e9957610ec8565b60ff1984168752821515830287019450610ec8565b8760005260208060002060005b85811015610ebf5781548a820152908401908201610ea6565b50505082870194505b50929695505050505050565b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b87815260006020888184015260a0604084015260008854610f1d81610cf3565b8060a087015260c0600180841660008114610f3f5760018114610f5957610f87565b60ff1985168984015283151560051b890183019550610f87565b8d6000528660002060005b85811015610f7f5781548b8201860152908301908801610f64565b8a0184019650505b50505050508381036060850152610f9f81888a610ed4565b9150508281036080840152610fb5818587610ed4565b9a9950505050505050505050565b84815260a060208201526000610fdc60a0830186610aa1565b6001600160a01b03949094166040830152506001600160401b039190911660608201528082036080909101526000815260200192915050565b81516001600160401b0381111561102e5761102e610b81565b6110428161103c8454610cf3565b84610d4f565b602080601f831160018114611077576000841561105f5750858301515b600019600386901b1c1916600185901b178555610d95565b600085815260208120601f198616915b828110156110a657888601518255948401946001909101908401611087565b50858210156110c45787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b85815260018060a01b0385166020820152836040820152608060608201526000610b76608083018486610ed456fea2646970667358221220e2214317eee2bc6594efd815fdb7f9f15be4aedb1baa079db6d8299ddd35735464736f6c63430008140033",
+  "deployedBytecode": "0x60806040526004361061009c5760003560e01c8063813d1e1511610064578063813d1e15146101cb57806381d12c58146101ed5780638cbc52d91461021d5780638da5cb5b1461023d578063b03478141461025d578063fac5d7e11461027d57600080fd5b8063127e8e4d146100a157806320f38718146100d45780632c6296b71461012257806331b221cd1461014f57806333727c4d1461019b575b600080fd5b3480156100ad57600080fd5b506100c16100bc3660046109f5565b610290565b6040519081526020015b60405180910390f35b3480156100e057600080fd5b5061010a6100ef3660046109f5565b6002602052600090815260409020546001600160401b031681565b6040516001600160401b0390911681526020016100cb565b34801561012e57600080fd5b5061014261013d366004610a56565b61033c565b6040516100cb9190610ae7565b34801561015b57600080fd5b506101837f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016100cb565b3480156101a757600080fd5b506101bb6101b63660046109f5565b610401565b60405190151581526020016100cb565b3480156101d757600080fd5b506101eb6101e6366004610b01565b61048d565b005b3480156101f957600080fd5b5061020d6102083660046109f5565b610508565b6040516100cb9493929190610b3d565b34801561022957600080fd5b50610142610238366004610b97565b61064e565b34801561024957600080fd5b50600054610183906001600160a01b031681565b34801561026957600080fd5b506101eb610278366004610c51565b610704565b6100c161028b366004610a56565b610888565b600081815260026020526040808220549051620e1d8d60e41b8152600481018490526001600160401b0390911660248201527f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03169062e1d8d090604401602060405180830381865afa158015610312573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103369190610cca565b92915050565b6060600360008581526020019081526020016000208383604051610361929190610ce3565b9081526020016040518091039020805461037a90610cf3565b80601f01602080910402602001604051908101604052809291908181526020018280546103a690610cf3565b80156103f35780601f106103c8576101008083540402835291602001916103f3565b820191906000526020600020905b8154815290600101906020018083116103d657829003601f168201915b505050505090509392505050565b6040516333727c4d60e01b8152600481018290526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906333727c4d90602401602060405180830381865afa158015610469573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103369190610d2d565b6000546001600160a01b031633146104d95760405162461bcd60e51b815260206004820152600a60248201526927b7363c9037bbb732b960b11b60448201526064015b60405180910390fd5b600091825260026020526040909120805467ffffffffffffffff19166001600160401b03909216919091179055565b60016020819052600091825260409091208054918101546002820180546001600160a01b039094169391929161053d90610cf3565b80601f016020809104026020016040519081016040528092919081815260200182805461056990610cf3565b80156105b65780601f1061058b576101008083540402835291602001916105b6565b820191906000526020600020905b81548152906001019060200180831161059957829003601f168201915b5050505050908060030180546105cb90610cf3565b80601f01602080910402602001604051908101604052809291908181526020018280546105f790610cf3565b80156106445780601f1061061957610100808354040283529160200191610644565b820191906000526020600020905b81548152906001019060200180831161062757829003601f168201915b5050505050905084565b600360209081526000928352604090922081518083018401805192815290840192909301919091209152805461068390610cf3565b80601f01602080910402602001604051908101604052809291908181526020018280546106af90610cf3565b80156106fc5780601f106106d1576101008083540402835291602001916106fc565b820191906000526020600020905b8154815290600101906020018083116106df57829003601f168201915b505050505081565b336001600160a01b037f00000000000000000000000000000000000000000000000000000000000000001681146107815760405163432e033760e11b81526001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081166004830152821660248201526044016104d0565b600086815260016020526040902080546001600160a01b03166107df5760405162461bcd60e51b81526020600482015260166024820152751c995c5d595cdd08191bd95cc81b9bdd08195e1a5cdd60521b60448201526064016104d0565b600381016107ee868883610d9e565b5085856003600084600101548152602001908152602001600020836002016040516108199190610e5e565b90815260200160405180910390209182610834929190610d9e565b507faf2b2381ddcb18a2b18a7826186fd216acdd9c852a8c7a9a49e7eab127f96ccf87826001015483600201898989896040516108779796959493929190610efd565b60405180910390a150505050505050565b60008083838080601f016020809104026020016040519081016040528093929190818152602001838380828437600092018290525089815260026020526040808220549051632dca9c0360e11b815295965090946001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000169450635b9538069350349250610930918b91889130916001600160401b0390911690600401610fc3565b60206040518083038185885af115801561094e573d6000803e3d6000fd5b50505050506040513d601f19601f820116820180604052508101906109739190610cca565b6000818152600160205260409020909150600281016109928482611015565b5080546001600160a01b031916339081178255600182018890556040517fa0faead83d70148ae18b694377f9bef079251342ab90e14af0f9ef68b891269f916109e3918591908b908b908b906110d4565b60405180910390a15095945050505050565b600060208284031215610a0757600080fd5b5035919050565b60008083601f840112610a2057600080fd5b5081356001600160401b03811115610a3757600080fd5b602083019150836020828501011115610a4f57600080fd5b9250929050565b600080600060408486031215610a6b57600080fd5b8335925060208401356001600160401b03811115610a8857600080fd5b610a9486828701610a0e565b9497909650939450505050565b6000815180845260005b81811015610ac757602081850181015186830182015201610aab565b506000602082860101526020601f19601f83011685010191505092915050565b602081526000610afa6020830184610aa1565b9392505050565b60008060408385031215610b1457600080fd5b8235915060208301356001600160401b0381168114610b3257600080fd5b809150509250929050565b60018060a01b0385168152836020820152608060408201526000610b646080830185610aa1565b8281036060840152610b768185610aa1565b979650505050505050565b634e487b7160e01b600052604160045260246000fd5b60008060408385031215610baa57600080fd5b8235915060208301356001600160401b0380821115610bc857600080fd5b818501915085601f830112610bdc57600080fd5b813581811115610bee57610bee610b81565b604051601f8201601f19908116603f01168101908382118183101715610c1657610c16610b81565b81604052828152886020848701011115610c2f57600080fd5b8260208601602083013760006020848301015280955050505050509250929050565b600080600080600060608688031215610c6957600080fd5b8535945060208601356001600160401b0380821115610c8757600080fd5b610c9389838a01610a0e565b90965094506040880135915080821115610cac57600080fd5b50610cb988828901610a0e565b969995985093965092949392505050565b600060208284031215610cdc57600080fd5b5051919050565b8183823760009101908152919050565b600181811c90821680610d0757607f821691505b602082108103610d2757634e487b7160e01b600052602260045260246000fd5b50919050565b600060208284031215610d3f57600080fd5b81518015158114610afa57600080fd5b601f821115610d9957600081815260208120601f850160051c81016020861015610d765750805b601f850160051c820191505b81811015610d9557828155600101610d82565b5050505b505050565b6001600160401b03831115610db557610db5610b81565b610dc983610dc38354610cf3565b83610d4f565b6000601f841160018114610dfd5760008515610de55750838201355b600019600387901b1c1916600186901b178355610e57565b600083815260209020601f19861690835b82811015610e2e5786850135825560209485019460019092019101610e0e565b5086821015610e4b5760001960f88860031b161c19848701351681555b505060018560011b0183555b5050505050565b6000808354610e6c81610cf3565b60018281168015610e845760018114610e9957610ec8565b60ff1984168752821515830287019450610ec8565b8760005260208060002060005b85811015610ebf5781548a820152908401908201610ea6565b50505082870194505b50929695505050505050565b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b87815260006020888184015260a0604084015260008854610f1d81610cf3565b8060a087015260c0600180841660008114610f3f5760018114610f5957610f87565b60ff1985168984015283151560051b890183019550610f87565b8d6000528660002060005b85811015610f7f5781548b8201860152908301908801610f64565b8a0184019650505b50505050508381036060850152610f9f81888a610ed4565b9150508281036080840152610fb5818587610ed4565b9a9950505050505050505050565b84815260a060208201526000610fdc60a0830186610aa1565b6001600160a01b03949094166040830152506001600160401b039190911660608201528082036080909101526000815260200192915050565b81516001600160401b0381111561102e5761102e610b81565b6110428161103c8454610cf3565b84610d4f565b602080601f831160018114611077576000841561105f5750858301515b600019600386901b1c1916600185901b178555610d95565b600085815260208120601f198616915b828110156110a657888601518255948401946001909101908401611087565b50858210156110c45787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b85815260018060a01b0385166020820152836040820152608060608201526000610b76608083018486610ed456fea2646970667358221220e2214317eee2bc6594efd815fdb7f9f15be4aedb1baa079db6d8299ddd35735464736f6c63430008140033",
+  "devdoc": {
+    "details": "Prompt contract inherits AIOracleCallbackReceiver, so that OPML nodes can callback with the result.",
+    "kind": "dev",
+    "methods": {
+      "aiOracleCallback(uint256,bytes,bytes)": {
+        "params": {
+          "callbackData": "optional data that is executed in the callback",
+          "output": "result of the OAO computation",
+          "requestId": "id of the request "
+        }
+      },
+      "calculateAIResult(uint256,string)": {
+        "details": "aiOracle.requestCallback sends request to OAO"
+      },
+      "setCallbackGasLimit(uint256,uint64)": {
+        "details": "only owner can set the gas limit"
+      }
+    },
+    "stateVariables": {
+      "callbackGasLimit": {
+        "details": "modelId => callback gasLimit"
+      },
+      "prompts": {
+        "details": "uint256: modelID => (string: prompt => string: output)"
+      },
+      "requests": {
+        "details": "requestId => AIOracleRequest"
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "aiOracleCallback(uint256,bytes,bytes)": {
+        "notice": "OAO executes this method after it finishes with computation"
+      },
+      "calculateAIResult(uint256,string)": {
+        "notice": "main point of interaction with OAO"
+      },
+      "constructor": {
+        "notice": "Initialize the contract, binding it to a specified AIOracle."
+      },
+      "estimateFee(uint256)": {
+        "notice": "estimating fee that is spent by OAO"
+      },
+      "getAIResult(uint256,string)": {
+        "notice": "returns the output for the specified model and prompt"
+      },
+      "setCallbackGasLimit(uint256,uint64)": {
+        "notice": "sets the callback gas limit for a model"
+      }
+    },
+    "notice": "User interfacing contract that interacts with OAO",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 41,
+        "contract": "contracts/Prompt.sol:Prompt",
+        "label": "owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 59,
+        "contract": "contracts/Prompt.sol:Prompt",
+        "label": "requests",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_uint256,t_struct(AIOracleRequest)39_storage)"
+      },
+      {
+        "astId": 64,
+        "contract": "contracts/Prompt.sol:Prompt",
+        "label": "callbackGasLimit",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_uint256,t_uint64)"
+      },
+      {
+        "astId": 116,
+        "contract": "contracts/Prompt.sol:Prompt",
+        "label": "prompts",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_string_storage))"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bytes_storage": {
+        "encoding": "bytes",
+        "label": "bytes",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_string_memory_ptr,t_string_storage)": {
+        "encoding": "mapping",
+        "key": "t_string_memory_ptr",
+        "label": "mapping(string => string)",
+        "numberOfBytes": "32",
+        "value": "t_string_storage"
+      },
+      "t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_string_storage))": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => mapping(string => string))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_string_memory_ptr,t_string_storage)"
+      },
+      "t_mapping(t_uint256,t_struct(AIOracleRequest)39_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct Prompt.AIOracleRequest)",
+        "numberOfBytes": "32",
+        "value": "t_struct(AIOracleRequest)39_storage"
+      },
+      "t_mapping(t_uint256,t_uint64)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => uint64)",
+        "numberOfBytes": "32",
+        "value": "t_uint64"
+      },
+      "t_string_memory_ptr": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(AIOracleRequest)39_storage": {
+        "encoding": "inplace",
+        "label": "struct Prompt.AIOracleRequest",
+        "members": [
+          {
+            "astId": 32,
+            "contract": "contracts/Prompt.sol:Prompt",
+            "label": "sender",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 34,
+            "contract": "contracts/Prompt.sol:Prompt",
+            "label": "modelId",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 36,
+            "contract": "contracts/Prompt.sol:Prompt",
+            "label": "input",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_bytes_storage"
+          },
+          {
+            "astId": 38,
+            "contract": "contracts/Prompt.sol:Prompt",
+            "label": "output",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_bytes_storage"
+          }
+        ],
+        "numberOfBytes": "128"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint64": {
+        "encoding": "inplace",
+        "label": "uint64",
+        "numberOfBytes": "8"
+      }
+    }
+  }
+}

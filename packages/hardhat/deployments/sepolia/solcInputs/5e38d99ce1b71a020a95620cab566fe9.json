@@ -1,0 +1,42 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Prompt.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.13;\n\n// import \"./interfaces/IAIOracle.sol\";\n// import \"./AIOracleCallbackReceiver.sol\";\nimport {IAIOracle} from \"../lib/OAO/contracts/interfaces/IAIOracle.sol\";\nimport {AIOracleCallbackReceiver} from \"../lib/OAO/contracts/AIOracleCallbackReceiver.sol\";\n\n/// @notice User interfacing contract that interacts with OAO\n/// @dev Prompt contract inherits AIOracleCallbackReceiver, so that OPML nodes can callback with the result.\ncontract Prompt is AIOracleCallbackReceiver {\n    \n    event promptsUpdated(\n        uint256 requestId,\n        uint256 modelId,\n        string input,\n        string output,\n        bytes callbackData\n    );\n\n    event promptRequest(\n        uint256 requestId,\n        address sender, \n        uint256 modelId,\n        string prompt\n    );\n\n    struct AIOracleRequest {\n        address sender;\n        uint256 modelId;\n        bytes input;\n        bytes output;\n    }\n\n    address public owner;\n\n    modifier onlyOwner() {\n        require(msg.sender == owner, \"Only owner\");\n        _;\n    }\n\n    /// @dev requestId => AIOracleRequest\n    mapping(uint256 => AIOracleRequest) public requests;\n\n    /// @dev modelId => callback gasLimit\n    mapping(uint256 => uint64) public callbackGasLimit;\n\n    /// @notice Initialize the contract, binding it to a specified AIOracle.\n    constructor(IAIOracle _aiOracle) AIOracleCallbackReceiver(_aiOracle) {\n        owner = msg.sender;\n        callbackGasLimit[50] = 500_000; // Stable Diffusion\n        callbackGasLimit[11] = 5_000_000; // Llama\n    }\n\n    /// @notice sets the callback gas limit for a model\n    /// @dev only owner can set the gas limit\n    function setCallbackGasLimit(uint256 modelId, uint64 gasLimit) external onlyOwner {\n        callbackGasLimit[modelId] = gasLimit;\n    }\n\n    /// @dev uint256: modelID => (string: prompt => string: output)\n    mapping(uint256 => mapping(string => string)) public prompts;\n\n    /// @notice returns the output for the specified model and prompt\n    function getAIResult(uint256 modelId, string calldata prompt) external view returns (string memory) {\n        return prompts[modelId][prompt];\n    }\n\n    /// @notice OAO executes this method after it finishes with computation\n    /// @param requestId id of the request \n    /// @param output result of the OAO computation\n    /// @param callbackData optional data that is executed in the callback\n    function aiOracleCallback(uint256 requestId, bytes calldata output, bytes calldata callbackData) external override onlyAIOracleCallback() {\n        // since we do not set the callbackData in this example, the callbackData should be empty\n        AIOracleRequest storage request = requests[requestId];\n        require(request.sender != address(0), \"request does not exist\");\n        request.output = output;\n        prompts[request.modelId][string(request.input)] = string(output);\n        emit promptsUpdated(requestId, request.modelId, string(request.input), string(output), callbackData);\n    }\n\n    /// @notice estimating fee that is spent by OAO\n    function estimateFee(uint256 modelId) public view returns (uint256) {\n        return aiOracle.estimateFee(modelId, callbackGasLimit[modelId]);\n    }\n\n    /// @notice main point of interaction with OAO\n    /// @dev aiOracle.requestCallback sends request to OAO\n    function calculateAIResult(uint256 modelId, string calldata prompt) payable external returns (uint256) {\n        bytes memory input = bytes(prompt);\n        uint256 requestId = aiOracle.requestCallback{value: msg.value}(\n            modelId, input, address(this), callbackGasLimit[modelId], \"\"\n        );\n        AIOracleRequest storage request = requests[requestId];\n        request.input = input;\n        request.sender = msg.sender;\n        request.modelId = modelId;\n        emit promptRequest(requestId, msg.sender, modelId, prompt);\n        return requestId;\n    }\n\n}"
+    },
+    "lib/OAO/contracts/AIOracleCallbackReceiver.sol": {
+      "content": "// SampleContract.sol\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.9;\n\nimport \"./interfaces/IAIOracle.sol\";\n\n/// @notice A base contract for writing a AIOracle app\nabstract contract AIOracleCallbackReceiver {\n\n    // Address of the AIOracle contract\n    IAIOracle public immutable aiOracle;\n\n    // Invalid callback source error\n    error UnauthorizedCallbackSource(IAIOracle expected, IAIOracle found);\n\n    /// @notice Initialize the contract, binding it to a specified AIOracle contract\n    constructor(IAIOracle _aiOracle) {\n        aiOracle = _aiOracle;\n    }\n\n    /// @notice Verify this is a callback by the aiOracle contract \n    modifier onlyAIOracleCallback() {\n        IAIOracle foundRelayAddress = IAIOracle(msg.sender);\n        if (foundRelayAddress != aiOracle) {\n            revert UnauthorizedCallbackSource(aiOracle, foundRelayAddress);\n        }\n        _;\n    }\n\n    /**\n     * @dev the callback function in OAO, should add the modifier onlyAIOracleCallback!\n     * @param requestId Id for the request in OAO (unique per request)\n     * @param output AI model's output\n     * @param callbackData user-defined data (The same as when the user call aiOracle.requestCallback)\n     */\n    function aiOracleCallback(uint256 requestId, bytes calldata output, bytes calldata callbackData) external virtual;\n\n    function isFinalized(uint256 requestId) external view returns (bool) {\n        return aiOracle.isFinalized(requestId);\n    }\n}"
+    },
+    "lib/OAO/contracts/interfaces/IAIOracle.sol": {
+      "content": "// SampleContract.sol\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.9;\n\ninterface IAIOracle {\n    /// @notice Event emitted upon receiving a callback request through requestCallback.\n    event AICallbackRequest(\n        address indexed account,\n        uint256 indexed requestId,\n        uint256 modelId,\n        bytes input,\n        address callbackContract,\n        uint64 gasLimit,\n        bytes callbackData\n    );\n\n    /// @notice Event emitted when the result is uploaded or update.\n    event AICallbackResult(\n        address indexed account,\n        uint256 indexed requestId,\n        address invoker,\n        bytes output\n    );\n\n    /**\n     * initiate a request in OAO\n     * @param modelId ID for AI model\n     * @param input input for AI model\n     * @param callbackContract address of callback contract\n     * @param gasLimit gas limitation of calling the callback function\n     * @param callbackData optional, user-defined data, will send back to the callback function\n     * @return requestID\n     */\n    function requestCallback(\n        uint256 modelId,\n        bytes memory input,\n        address callbackContract,\n        uint64 gasLimit,\n        bytes memory callbackData\n    ) external payable returns (uint256);\n\n    function estimateFee(uint256 modelId, uint256 gasLimit) external view returns (uint256);\n\n    function isFinalized(uint256 requestId) external view returns (bool);\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
