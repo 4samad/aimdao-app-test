@@ -50,7 +50,7 @@ const Home: NextPage = () => {
     args: [requestId || undefined],
   });
 
-  const { data, writeContractAsync: writeAimEvaluatorAsync } = useScaffoldWriteContract({
+  const { writeContractAsync: writeAimEvaluatorAsync } = useScaffoldWriteContract({
     contractName: "AimEvaluator",
   });
 
