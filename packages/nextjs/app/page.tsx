@@ -24,6 +24,7 @@ const Home: NextPage = () => {
   const [requestId, setRequestId] = useState<bigint | null | undefined>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [resultData, setResultData] = useState<ProposalResult | null>(null);
+  const [shownEvents, setShownEvents] = useState(4);
 
   // Read the constitution
   const { data: constitution } = useScaffoldReadContract({
@@ -278,7 +279,7 @@ const Home: NextPage = () => {
           <div>
             {proposalEvents && proposalEvents.length > 0 ? (
               <div className="overflow-y-auto max-h-100">
-                {proposalEvents.slice(0, 4).map((event, index) => (
+                {proposalEvents.slice(0, shownEvents).map((event, index) => (
                   <div key={index} className="mb-3 p-3 bg-base-200 rounded-lg">
                     <div className="mb-1">
                       <span className="font-bold">Request ID:</span> {event?.args.requestId?.toString()}
@@ -307,6 +308,16 @@ const Home: NextPage = () => {
               </div>
             ) : (
               <div className="text-sm italic">No proposal evaluations yet</div>
+            )}
+            {proposalEvents && proposalEvents.length > shownEvents && (
+              <button
+                className="btn btn-ghost"
+                onClick={() => {
+                  setShownEvents(shownEvents + 4);
+                }}
+              >
+                Show more
+              </button>
             )}
           </div>
         </div>
