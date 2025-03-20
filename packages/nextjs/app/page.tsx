@@ -278,7 +278,7 @@ const Home: NextPage = () => {
           <div>
             {proposalEvents && proposalEvents.length > 0 ? (
               <div className="overflow-y-auto max-h-100">
-                {proposalEvents.map((event, index) => (
+                {proposalEvents.slice(0, 4).map((event, index) => (
                   <div key={index} className="mb-3 p-3 bg-base-200 rounded-lg">
                     <div className="mb-1">
                       <span className="font-bold">Request ID:</span> {event?.args.requestId?.toString()}
