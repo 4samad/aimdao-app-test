@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
   });
 
   // Check proposal result
-  const checkProposalResult = async (id: bigint) => {
+  const checkProposalResult = async () => {
     setIsLoading(true);
     try {
       await refetchResult();
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
         if (proposer === connectedAddress && proposal === submittedProposal) {
           setRequestId(newRequestId);
           if (newRequestId) {
-            checkProposalResult(newRequestId);
+            checkProposalResult();
           }
         }
       });
@@ -119,19 +119,19 @@ const Home: NextPage = () => {
   });
 
   // Effect to poll for results when request is pending
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout;
+  // useEffect(() => {
+  //   let intervalId: NodeJS.Timeout;
 
-    if (requestId && (!resultData || !resultData.completed)) {
-      intervalId = setInterval(() => {
-        checkProposalResult(requestId);
-      }, 5000); // Check every 5 seconds
-    }
+  //   if (requestId && (!resultData || !resultData.completed)) {
+  //     intervalId = setInterval(() => {
+  //       checkProposalResult();
+  //     }, 5000); // Check every 5 seconds
+  //   }
 
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [requestId, resultData]);
+  //   return () => {
+  //     if (intervalId) clearInterval(intervalId);
+  //   };
+  // }, [requestId, resultData,]);
 
   return (
     <>
@@ -260,10 +260,7 @@ const Home: NextPage = () => {
                   <div className="flex items-center">
                     <span className="loading loading-spinner mr-2"></span>
                     Waiting for AI evaluation...
-                    <button
-                      className="btn btn-ghost btn-sm ml-auto"
-                      onClick={() => requestId && checkProposalResult(requestId)}
-                    >
+                    <button className="btn btn-ghost btn-sm ml-auto" onClick={() => requestId && checkProposalResult()}>
                       <ArrowPathIcon className="h-4 w-4" />
                     </button>
                   </div>
